@@ -1,0 +1,5 @@
+#include "chatblas_hip.h" 
+
+__global__ void sdot_kernel(int n, float *x, float *y, float *res) { __shared__ float temp[512]; int index = threadIdx.x + blockIdx.x * blockDim.x; temp[threadIdx.x] = x[index] * y[index]; __syncthreads(); if (0 == threadIdx.x) { float sum = 0; for (int i = 0; i < blockDim.x; i++) { sum += temp[i]; } atomicAdd(res, sum); } } 
+
+float chatblas_sdot( int n, float *x, float *y) { float *x_gpu, *y_gpu, *res_gpu; float result = 0.0; float *partial_res = (float*) malloc(512 * sizeof(float)); hipMalloc((void**)&x_gpu, n*sizeof(float)); hipMalloc((void**)&y_gpu, n*sizeof(float)); hipMalloc((void**)&res_gpu, sizeof(float)); hipMemcpy(x_gpu, x, n*sizeof(float), hipMemcpyHostToDevice); hipMemcpy(y_gpu, y, n*sizeof(float), hipMemcpyHostToDevice); hipLaunchKernelGGL(sdot_kernel, dim3(512), dim3(512), 0, 0, n, x_gpu, y_gpu, res_gpu); hipMemcpy(partial_res, res_gpu, 512*sizeof(float), hipMemcpyDeviceToHost); for(int i = 0; i < 512; i++) { result += partial_res[i]; } hipFree(x_gpu); hipFree(y_gpu); hipFree(res_gpu); free(partial_res); return result; }

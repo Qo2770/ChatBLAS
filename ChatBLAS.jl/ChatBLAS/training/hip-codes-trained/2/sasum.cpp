@@ -1,0 +1,5 @@
+#include "chatblas_hip.h" 
+
+__global__ void sasum_kernel(int n, float *x, float *result) { __shared__ float cache[512]; int tid = threadIdx.x + blockIdx.x * blockDim.x; int cacheIndex = threadIdx.x; float temp = 0; while (tid < n) { temp += fabsf(x[tid]); tid += blockDim.x * gridDim.x; } cache[cacheIndex] = temp; __syncthreads(); int i = blockDim.x / 2; while (i != 0) { if (cacheIndex < i) cache[cacheIndex] += cache[cacheIndex + i]; __syncthreads(); i /= 2; } if (cacheIndex == 0) result[blockIdx.x] = cache[0]; } 
+
+float chatblas_sasum(int n, float *x) { float *device_x; float *partial_sum; float result = 0; float *device_result; partial_sum = (float*) malloc(512 * sizeof(float)); hipMalloc((void**)&device_x, n*sizeof(float)); hipMalloc((void**)&device_result, 512*sizeof(float)); hipMemcpy(device_x, x, n*sizeof(float), hipMemcpyHostToDevice); sasum_kernel<<<512, 512>>>(n, device_x, device_result); hipMemcpy(partial_sum, device_result, 512 * sizeof(float), hipMemcpyDeviceToHost); for (int i = 0; i < 512; i++) { result += partial_sum[i]; } hipFree(device_x); hipFree(device_result); free(partial_sum); return result; }

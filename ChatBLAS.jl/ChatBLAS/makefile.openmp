@@ -1,0 +1,43 @@
+.PHONY: all clean
+
+CC = gcc
+CFLAGS = -std=c99 -fopenmp -O3 -Wall -Wextra -pedantic -fPIC
+
+INC = -Iinc/
+
+OBJS = saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o libchatblas.so 
+
+all: $(OBJS)
+
+saxpy.o: saxpy.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+sscal.o: sscal.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+sswap.o: sswap.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+scopy.o: scopy.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+sdot.o: sdot.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+sdsdot.o: sdsdot.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+sasum.o: sasum.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+snrm2.o: snrm2.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+isamax.o: isamax.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+libchatblas.so: 
+	$(CC) $(CFLAGS) -o $@ saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o -shared
+
+clean:
+	rm -f $(OBJS)
