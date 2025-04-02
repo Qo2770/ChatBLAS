@@ -32,10 +32,9 @@ end
 const language = @load_preference("language", "c")
 const model = @load_preference("model", "openmp")
 const secret_key = @load_preference("secret_key", "")
-const secret_key = @load_preference("secret_key", "")
 #const gpt_model = @load_preference("gpt_model", "gpt-3.5-turbo")
 #const gpt_model = @load_preference("gpt_model", "ft:gpt-3.5-turbo-1106:personal::8S4Je80c")
 #const gpt_model = @load_preference("gpt_model", "ft:gpt-3.5-turbo-1106:personal:hip-blas1-chatblas:92hNz4Hj")
-const gpt_model = @load_preference("gpt_model", "gpt-4")
+const gpt_model = @load_preference("gpt_model", "gpt-4o")
 
 end # module ChatBLASPreferences
