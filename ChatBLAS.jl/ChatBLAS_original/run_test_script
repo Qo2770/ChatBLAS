@@ -1,0 +1,7 @@
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
+gcc test.c -o run -I./inc/ -L. -lchatblas
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
+gcc test.c -o run -I./inc/ -I/opt/nvidia/hpc_sdk/Linux_ppc64le/22.11/cuda/include -L/opt/nvidia/hpc_sdk/Linux_ppc64le/22.11/cuda/lib64/ -lcudart -L. -lchatblas
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
+gcc -D __HIP_PLATFORM_AMD__ test.c -o run -I./inc/ -I/opt/rocm-5.6.0/include/ -L/opt/rocm-5.6.0/lib -lamdhip64 -L. -lchatblas
