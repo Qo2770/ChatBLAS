@@ -27,7 +27,6 @@ function set_model(new_model::String)
     @info("New model set; restart your Julia session for this change to take effect!")
 end
 
-const api_key = @load_preference("api_key", "")
 const litellm_url = @load_preference("litellm_url", "https://cmu.litellm.ai")
 
 const language = @load_preference("language", "c")
