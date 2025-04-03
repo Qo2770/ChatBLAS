@@ -16,7 +16,8 @@ function scopy()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that copies a vector x to a vector y. Do not give a main function. Vectors are length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of the blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void scopy_kernel( int n, float *x, float *y ) { and the next function name and parameters for the function void chatblas_scopy(int n, float *x, float *y) {. Include the next line at the beginning of the code #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -39,7 +40,8 @@ function sswap()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that computes the swap of two vectors x and y. Do not give a main function. Vectors are length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void sswap_kernel(int n, float *x, float *y) { and the next function name and parameters for the function void chatblas_sswap(int n, float *x, float *y) {. Include the next line at the beginning of the code #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -62,7 +64,8 @@ function sdot()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that computes and return the dot product of two vectors x and y. Do not give a main function. Vectors are length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use shared memory to accelerate the computation. Minimize the use of atomic operations. Use next function name and parameters for the kernel __global__ void sdot_kernel(int n, float *x, float *y, float *res) { where the result of computing the dot product of the vector x and y is returned in the pointer res and the next function name and parameters for the function float chatblas_sdot( int n, float *x, float *y) {. Include the next line at the beginning of the code #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -85,7 +88,8 @@ function sdsdot()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that computes and return the dot product of two vectors x and y. The final result must add the scalar b which is passed as argument. The accomulation is computed in double precision, so the elements of the vector X and Y must be casted to double before the computation.  Do not give a main function. The accomulation is computed in double precision. Vectors are length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use shared memory to accelerate the computation. Minimize the use of atomic operations. Use next function name and parameters for the kernel __global__ void sdsdot_kernel( int n, float b, float *x, float *y, float *res ) { where the result of computing the dot product of the vector x and y plus b is returned in the pointer res and the next function name and parameters for the function float chatblas_sdsdot( int n, float b, float *x, float *y) {. Include the next line at the beginning of the code #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -108,7 +112,8 @@ function snrm2()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that computes and return the Euclidean norm of a vector x. Do not give a main function. Vector is length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void snrm2_kernel(int n, float *x, float *res) { where the result of computing the Ecludian norm of the vector x is returned in the pointer res, and the next function name and parameters for the function float chatblas_snrm2(int n, float *x) {. Include the next line at the beginning of the response #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -131,7 +136,8 @@ function sscal()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function that calls the kernel only that scales a vector x by a constant a. Do not give a main function. Vector x is length n, use C and HIP to compute in parallel, allocate and free the GPU vector and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void sscal_kernel( int n, float a , float *x ) { and the next function name and parameters for the function void chatblas_sscal( int n, float a, float *x) {. Include the next line at the beginning of the response #include \"chatblas_hip.h\"."
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -154,7 +160,8 @@ function saxpy()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function only that computes a multiplication of a vector x by a constant a and the result is added to a vector y. Do not give a main function. Vectors x and y are length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void saxpy_kernel(int n, float a, float *x, float *y) { and the next function name and parameters for the function void chatblas_saxpy(int n, float a, float *x, float *y) {. Include the next line at the beginning of the code #include \"chatblas_hip.h\"."	 
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -176,7 +183,8 @@ function isamax()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function only that returns the position of the element of a vector X that has the largest absolute value. Do not give a main function. Vectors x is length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use next function name and parameters for the kernel __global__ void isamax_kernel(int n, float *x, int *ind) { where the position of the largest absolute value of vector x is returned using the ind pointer and the next function name and parameters for the function int chatblas_isamax(int n, float *x) {. Include the next line at the beginning of the response #include \"chatblas_hip.h\"."	
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
@@ -199,7 +207,8 @@ function sasum()
     prompt = "Only respond with code as plain text without code block syntax around it. Give me a kernel and a function only that returns the sum of the absolute values of the elements of a vector x. Do not give a main function. Vectors x is length n, use C and HIP to compute in parallel, allocate and free the GPU vectors and make the CPU - GPU memory transfers in the function. The size of blocks of threads and the number of blocks must be defined. Use shared memory to accelerate the computation. Minimize the use of atomic operations. Use next function name and parameters for the kernel __global__ void sasum_kernel(int n, float *x, float *sum) { where the sum of the absolute values of the elements of the vector x is returned using the sum pointer and the next function name and parameters for the function float chatblas_sasum(int n, float *x) {. Include the next line at the beginning of the response #include \"chatblas_hip.h\"."	
   end
 
-  r = create_chat(ChatBLASPreferences.secret_key, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
+  provider = OpenAI.OpenAIProvider(ChatBLASPreferences.api_key, ChatBLASPreferences.litellm_url, "")
+  r = OpenAI.create_chat(provider, ChatBLASPreferences.gpt_model,[Dict("role" => "user", "content"=> prompt)])
 
   string = r.response[:choices][begin][:message][:content]
   if ChatBLASPreferences.language == "c" && ChatBLASPreferences.model == "openmp" 
