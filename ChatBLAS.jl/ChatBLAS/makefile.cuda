@@ -11,33 +11,34 @@ OBJS = saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o 
 all: $(OBJS) $(LIB)
 
 saxpy.o: saxpy.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 sscal.o: sscal.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 sswap.o: sswap.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 scopy.o: scopy.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 sdot.o: sdot.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 sdsdot.o: sdsdot.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 sasum.o: sasum.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 snrm2.o: snrm2.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 isamax.o: isamax.cu
-	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
-libchatblas.so: 
-	$(CC) -L$(CUDA_LIB) -lcudart -o $@ saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o -shared
+libchatblas.so:
+	-$(CC) -L$(CUDA_LIB) -lcudart -o $@ $(wildcard saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o) -shared
+
 clean:
 	rm -f $(OBJS)
