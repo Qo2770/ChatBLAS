@@ -30,11 +30,12 @@ end
 const litellm_url = @load_preference("litellm_url", "https://cmu.litellm.ai")
 
 const language = @load_preference("language", "c")
-const model = @load_preference("model", "openmp")
-const secret_key = @load_preference("secret_key", "")
+const model = @load_preference("model", "cuda")
+const secret_key = @load_preference("secret_key", "sk-oK8ZAf3iizwyCznADd-tQQ")
 #const gpt_model = @load_preference("gpt_model", "gpt-3.5-turbo")
 #const gpt_model = @load_preference("gpt_model", "ft:gpt-3.5-turbo-1106:personal::8S4Je80c")
 #const gpt_model = @load_preference("gpt_model", "ft:gpt-3.5-turbo-1106:personal:hip-blas1-chatblas:92hNz4Hj")
 const gpt_model = @load_preference("gpt_model", "gpt-4o")
+# const gpt_model = @load_preference("gpt_model", "gpt-3.5-turbo")
 
 end # module ChatBLASPreferences

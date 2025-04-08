@@ -4,7 +4,8 @@ CC = nvcc
 #CFLAGS =  -arch=sm_70 --compiler-options '-fPIC' --shared
 CFLAGS =  -arch=sm_80 --compiler-options '-fPIC' --shared
 INC = -Iinc/
-CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_ppc64le/22.11/cuda/lib64/
+#CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_ppc64le/22.11/cuda/lib64/
+CUDA_LIB = /opt/cuda/lib64/
 
 OBJS = saxpy.o sscal.o sswap.o scopy.o sdot.o sdsdot.o sasum.o snrm2.o isamax.o libchatblas.so 
 

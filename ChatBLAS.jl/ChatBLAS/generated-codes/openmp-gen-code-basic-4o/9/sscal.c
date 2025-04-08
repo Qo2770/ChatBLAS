@@ -1,0 +1,10 @@
+#include "chatblas_openmp.h"
+#include <omp.h>
+
+void chatblas_sscal(int n, float a, float *x) {
+    // Use OpenMP to parallelize the for loop
+    #pragma omp parallel for
+    for (int i = 0; i < n; i++) {
+        x[i] *= a;
+    }
+}

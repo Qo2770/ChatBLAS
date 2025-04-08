@@ -95,7 +95,7 @@ end
   ret_ref::Int32 = ret
   ret_ref = LinearAlgebra.BLAS.iamax(X_ref)
   ret = @ccall "$libpath".chatblas_isamax(n::Cint, X::Ptr{Cfloat})::Cint
-  @test isapprox(ret, ret_ref, rtol = 1e-0)
+  @test isapprox(ret, ret_ref, atol = 1.0)
 end
 
 @testset "SNRM2" begin
@@ -140,8 +140,8 @@ end
   Y_ref .= Y
   sswap(n, X_ref, Y_ref)
   @ccall "$libpath".chatblas_sswap(n::Cint, X::Ptr{Cfloat}, Y::Ptr{Cfloat})::Cvoid
-  @test isapprox(X, X_ref, rtol = 1e-0)
-  @test isapprox(Y, Y_ref, rtol = 1e-0)
+  @test isapprox(X, X_ref, atol = 1.0)
+  @test isapprox(Y, Y_ref, atol = 1.0)
 end
 
 @testset "SDSDOT" begin
