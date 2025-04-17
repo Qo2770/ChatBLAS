@@ -1,0 +1,21 @@
+.PHONY: all clean
+
+CC = nvcc
+#CFLAGS =  -arch=sm_70 --compiler-options '-fPIC' --shared
+CFLAGS =  -arch=sm_80 --compiler-options '-fPIC' --shared
+INC = -Iinc/
+#CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_ppc64le/22.11/cuda/lib64/
+CUDA_LIB = /opt/cuda/lib64/
+
+OBJS = fft.o libfft.so 
+
+all: $(OBJS) $(LIB)
+
+fft.o: fft.cu
+	-$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+libfft.so:
+	-$(CC) -L$(CUDA_LIB) -lcudart -o $@ $(wildcard fft.o) -shared
+
+clean:
+	rm -f $(OBJS)

@@ -1,0 +1,19 @@
+.PHONY: all clean
+
+CC = gcc-14
+CFLAGS = -std=c99 -fopenmp -O3 -Wall -Wextra -pedantic -fPIC
+
+INC = -Iinc/
+
+OBJS = fft.o libfft.so 
+
+all: $(OBJS)
+
+fft.o: fft.c
+	$(CC) -c $(CFLAGS) $(INC) $< -o $@
+
+libfft.so: 
+	$(CC) $(CFLAGS) -o $@ fft.o -shared
+
+clean:
+	rm -f $(OBJS)

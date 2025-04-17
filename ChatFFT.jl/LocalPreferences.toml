@@ -1,0 +1,3 @@
+[ChatBLAS]
+language = "c"
+model = "openmp"
