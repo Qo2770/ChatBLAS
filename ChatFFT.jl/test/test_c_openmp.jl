@@ -4,7 +4,7 @@ using FFTW
 using Test
 
 testdir = @__DIR__
-const libpath = normpath(joinpath(testdir, "..", "ChatFFT", "libfft.so"))
+const libpath = normpath(joinpath(testdir, "..", "ChatFFT", "libchatfft.so"))
 
 @testset "Test Language" begin
     @test ChatFFT.ChatFFTPreferences.language == "c"
@@ -34,10 +34,10 @@ end
 @testset "Testing FFT routines" begin
 
   @testset "Inverse" begin
-    n::Int32 = 8 
+    n::Int32 = 64 
     isign::Int32 = -1
     isign_rev::Int32 = 1
-    X = zeros(16) 
+    X = zeros(Float32, n*2) 
     X[begin:2:end] = rand(Float32, n)
     ref = X
     @ccall "$libpath".chatfft(X::Ptr{Cfloat}, n::Cint, isign::Cint)::Cvoid
@@ -46,9 +46,11 @@ end
   end
   
   @testset "Rand FFTW" begin
-    n::Int32 = 4
+    n::Int32 = 64
     isign::Int32 = -1
-    X = Float32[1.0, 0.0, 2.0, 0.0, 3.0, 0.0, 4.0, 0.0]
+    # X = Float32[1.0, 0.0, 2.0, 0.0, 3.0, 0.0, 4.0, 0.0]
+    X = zeros(Float32, n*2)
+    X[begin:2:end] = rand(Float32, n)
     ref = fft(X[begin:2:end])  
     @ccall "$libpath".chatfft(X::Ptr{Cfloat}, n::Cint, isign::Cint)::Cvoid
     @test isapprox(X[begin:2:end], real.(ref), rtol = 1e-6)
